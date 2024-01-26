@@ -26,4 +26,5 @@ public class Ex13Test {
         int[] arr2 = { 12, 13, 18, 30, 45 };
         assertEquals(16, Ex13.findMedian(arr1, arr2));
     }
+
 }

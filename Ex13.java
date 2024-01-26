@@ -1,6 +1,18 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class Ex13 {
+    /**
+     * Accepts a non-empty array of integers and returns the maximum product of 3
+     * 
+     * The time complexity is O(n) and the space complexity is O(1)
+     * 
+     * Time complexity is O(n) because we iterate through the array once, meaning it
+     * is n steps which will linearly increase the time complexity.
+     * 
+     * Space complexity is O(1) because we only use contant amound of integer
+     * variables, and is not dependent on the size of the input.
+     * 
+     * @param arr
+     * @return the maximum product of 3 elements in the array
+     */
     public static int maxMult3(int[] arr) {
         if (arr.length < 3) {
             return Integer.MIN_VALUE;
@@ -36,43 +48,69 @@ public class Ex13 {
         return Math.max(max1 * max2 * max3, max1 * min1 * min2);
     }
 
+    /**
+     * Find the median of 2 separate and sorted arrays as combined sorted arrays.
+     * 
+     * Time complexity here is O(logn) because we "cut" the array in half each time
+     * we iterate it and find the median of both array, therefore we are increasing
+     * the running time by log of n with input's growth.
+     * 
+     * Space complexity is O(1), we use predeclated, and not-input-dependant
+     * variables that the space
+     * complexity is constant and not increasing with input.
+     * 
+     * @param arr1
+     * @param arr2
+     * @return the median of the arrays combined and sorted
+     */
     public static int findMedian(int[] arr1, int[] arr2) {
+        int l1 = 0, r1 = arr1.length - 1;
+        int l2 = 0, r2 = arr2.length - 1;
+        int median1 = 0, median2 = 0;
 
-        int start = 0;
-        int end = arr1.length - 1;
-        int median1 = median(arr1);
-        int median2 = median(arr2);
-        while (start - end != 1) {
+        while (r1 - l1 != 1 && r2 - l2 != 1) {
+            int mid1 = (l1 + r1) / 2;
+            median1 = arr1[mid1];
 
-            if (median1 > median2) {
-                start = 0;
-                end = arr1.length / 2;
-            } else if (median1 < median2) {
-                start = arr1.length / 2;
-                end = arr1.length - 1;
+            int mid2 = (r2 + l2) / 2;
+            median2 = arr2[mid2];
+
+            if (median1 < median2) {
+                l1 = mid1;
+                r2 = mid2;
+            } else if (median1 > median2) {
+                r1 = mid1;
+                l2 = mid2;
             } else {
                 return median1;
             }
         }
 
-        int initMedian = Math.max(arr1[start], arr2[start]);
-        int finalMedian = Math.max(arr1[end], arr2[end]);
+        int maximum = Math.max(arr1[l1], arr2[l2]);
+        int minimum = Math.min(arr1[r1], arr2[r2]);
 
-        return (finalMedian + initMedian) / 2;
+        return (maximum + minimum) / 2;
     }
 
-    private static int median(int[] arr) {
-        if (arr.length % 2 == 0) {
-            return (arr[arr.length / 2] + arr[arr.length / 2 - 1]) / 2;
-        } else {
-            return arr[arr.length / 2];
-        }
-    }
+    // public static int binarySearch(int arr[], int target) {
+    // int l = 0, r = arr.length - 1;
+
+    // while (l <= r) {
+    // int m = (r + l) / 2;
+
+    // if (arr[m] < target) {
+    // l = m + 1;
+    // } else if (arr[m] > target) {
+    // r = m - 1;
+    // } else {
+    // return m;
+    // }
+    // }
+
+    // return -1;
+    // }
 
     public static void main(String[] args) {
-        int[] arr = { 1, 2, 3, 4 };
-        System.out.println(maxMult3(arr));
-
         int[] arr1 = { 1, 12, 15, 26, 38 };
         int[] arr2 = { 12, 13, 18, 30, 45 };
         System.out.println(findMedian(arr1, arr2));
