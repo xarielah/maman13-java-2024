@@ -27,4 +27,11 @@ public class Ex13Test {
         assertEquals(16, Ex13.findMedian(arr1, arr2));
     }
 
+    @Test
+    public void testMinimalSt() {
+        String st1 = "AGGTAB";
+        String st2 = "GXTXAYB";
+        assertEquals(Ex13.minimalSt(st1, st2), "AGXGTXAYB");
+        assertEquals(Ex13.minimalSt(st1, st2), "AGGXTXAYB");
+    }
 }

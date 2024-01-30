@@ -86,33 +86,90 @@ public class Ex13 {
             }
         }
 
+        // Get the maximum from each first element of the 2 numbers array
         int maximum = Math.max(arr1[l1], arr2[l2]);
+
+        // Get the minimum from each second element of the 2 numbers array
         int minimum = Math.min(arr1[r1], arr2[r2]);
 
         return (maximum + minimum) / 2;
     }
 
-    // public static int binarySearch(int arr[], int target) {
-    // int l = 0, r = arr.length - 1;
-
-    // while (l <= r) {
-    // int m = (r + l) / 2;
-
-    // if (arr[m] < target) {
-    // l = m + 1;
-    // } else if (arr[m] > target) {
-    // r = m - 1;
-    // } else {
-    // return m;
-    // }
+    // public static String minimalSt(String st1, String st2) {
+    // // If a string equals to empty string return the other string.
+    // if (st1.equals("") || st2.equals("")) {
+    // return st1.length() > 0 ? st1 : st2;
     // }
 
-    // return -1;
+    // // Start the recursive driver function
+    // return minimalSt("", st1, 0, st2, 0);
     // }
+
+    public static String minimalSt(String st1, String st2) {
+        // if (st1.equals("")) {
+        // return st2;
+        // } else if (st2.equals("")) {
+        // return st1;
+        // }
+
+        return minimalSt("", st1, 0, st2, 0);
+    }
+
+    public static String minimalSt(String result, String st1, int index1, String st2, int index2) {
+        if (includes(result, st1) && includes(result, st2)) {
+            return result;
+        }
+
+        String m1 = "", m2 = "";
+
+        if (index1 < st1.length()) {
+            m1 = minimalSt(result + st1.charAt(index1), st1, index1 + 1, st2, index2);
+        }
+
+        if (index2 < st2.length()) {
+            m2 = minimalSt(result + st2.charAt(index2), st1, index1, st2, index2 + 1);
+        }
+
+        if (m1.equals("") && m2.equals("")) {
+            return "";
+        }
+
+        if (!m1.equals("") && !m2.equals("")) {
+            return m1.length() < m2.length() ? m1 : m2;
+        }
+
+        return !m1.equals("") ? m1 : m2;
+    }
+
+    private static boolean includes(String string, String subStr) {
+        return includes(string, 0, subStr, 0);
+    }
+
+    private static boolean includes(String string, int index1, String subStr, int index2) {
+        if (index2 == subStr.length()) {
+            return true;
+        }
+
+        if (index1 == string.length()) {
+            return false;
+        }
+
+        if (subStr.charAt(index2) == string.charAt(index1)) {
+            index2++;
+        }
+
+        index1++;
+
+        return includes(string, index1, subStr, index2);
+    }
 
     public static void main(String[] args) {
         int[] arr1 = { 1, 12, 15, 26, 38 };
         int[] arr2 = { 12, 13, 18, 30, 45 };
-        System.out.println(findMedian(arr1, arr2));
+        // System.out.println(includes("Ariel", "Ari") ? "included" : "non-included");
+
+        System.out.println(minimalSt("AGGTAB", "GXTXAYB"));
+
+        // System.out.println(includes("GXTXAYB", "B"));
     }
 }
