@@ -95,47 +95,57 @@ public class Ex13 {
         return (maximum + minimum) / 2;
     }
 
-    // public static String minimalSt(String st1, String st2) {
-    // // If a string equals to empty string return the other string.
-    // if (st1.equals("") || st2.equals("")) {
-    // return st1.length() > 0 ? st1 : st2;
-    // }
-
-    // // Start the recursive driver function
-    // return minimalSt("", st1, 0, st2, 0);
-    // }
-
+    /**
+     * Method accepts two string and returns the minimal interlaced
+     * version of both strings.
+     * 
+     * @param st1 string
+     * @param st2 string
+     * @return minimal string
+     */
     public static String minimalSt(String st1, String st2) {
-
-        return minimalSt("", st1, 0, st2, 0, 0);
+        return minimalSt("", st1, 0, st2, 0);
     }
 
-    public static String minimalSt(String result, String st1, int index1, String st2, int index2, int count) {
-        System.out.println(count);
-        count++;
-
+    private static String minimalSt(String result, String st1, int index1, String st2, int index2) {
+        // We use the recursive includes function to check at anytime if
+        // our progressivly-built result variable is is including both
+        // strings within it.
         if (includes(result, st1) && includes(result, st2)) {
             return result;
         }
 
+        // We initialize to temporary variable that will be used to
+        // traverse between the recursive string built during the run of the function.
         String m1 = "", m2 = "";
 
+        // As long as index is less than the length of st1 we continue iterating the st1
+        // string
+        // this will progressivly build our result variable in "interlacing" way.
         if (index1 < st1.length()) {
-            m1 = minimalSt(result + st1.charAt(index1), st1, index1 + 1, st2, index2, count);
+            m1 = minimalSt(result + st1.charAt(index1), st1, index1 + 1, st2, index2);
         }
 
+        // As long as index is less than the length of st2 we continue iterating the st2
+        // string
+        // this will progressivly build our result variable in "interlacing" way.
         if (index2 < st2.length()) {
-            m2 = minimalSt(result + st2.charAt(index2), st1, index1, st2, index2 + 1, count);
+            m2 = minimalSt(result + st2.charAt(index2), st1, index1, st2, index2 + 1);
         }
 
+        // If at any point both temp variables are empty, we return an empty string.
         if (m1.equals("") && m2.equals("")) {
             return "";
         }
 
+        // When we will reach to a point where both temp variables are populated we will
+        // return the shortest version between them.
         if (!m1.equals("") && !m2.equals("")) {
             return m1.length() < m2.length() ? m1 : m2;
         }
 
+        // When the rest of the condition aren't met, indexes ar the end of the strings,
+        // one of the temp vars is empty, we return the temp var which is not empty.
         return !m1.equals("") ? m1 : m2;
 
     }
@@ -162,19 +172,39 @@ public class Ex13 {
         return includes(string, index1, subStr, index2);
     }
 
-    public static void main(String[] args) {
-        int[] arr1 = { 1, 12, 15, 26, 38 };
-        int[] arr2 = { 12, 13, 18, 30, 45 };
-        // System.out.println(includes("Ariel", "Ari") ? "included" : "non-included");
-
-        // System.out.println(minimalSt("AGGTAB", "GXTXAYB"));
-        // System.out.println(minimalSt("AB", "BC"));
-
-        // System.out.println(includes("ABBC", "AB"));
-        // System.out.println(includes("ABBC", "BC"));
-
-        // System.out.println(build("", "XYZDA"));
-
+    public static int maxSnake(int[][] a) {
+        int maxPath = maxSnake(a, 0, 0, a[0][0]);
+        return maxPath > 0 ? maxPath : Integer.MIN_VALUE;
     }
 
+    private static int maxSnake(int[][] a, int i, int j, int prev) {
+        if (i < 0 || j < 0 || i == a.length || j == a[0].length) {
+            return Integer.MIN_VALUE;
+        }
+
+        int cur = a[i][j];
+
+        if (cur < 0) {
+            return Integer.MIN_VALUE;
+        }
+
+        if (Math.abs(cur - prev) > 1) {
+            return Integer.MIN_VALUE;
+        }
+
+        if (i == a.length - 1 && j == a[0].length - 1) {
+            return 1;
+        }
+
+        int up = maxSnake(a, i - 1, j, cur);
+        int down = maxSnake(a, i + 1, j, cur);
+        int right = maxSnake(a, i, j + 1, cur);
+        int left = maxSnake(a, i, j - 1, cur);
+
+        a[i][j] *= -1;
+
+        return 1 + Math.max(
+                Math.max(up, down),
+                Math.max(left, right));
+    }
 }
