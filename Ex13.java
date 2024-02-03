@@ -106,16 +106,14 @@ public class Ex13 {
     // }
 
     public static String minimalSt(String st1, String st2) {
-        // if (st1.equals("")) {
-        // return st2;
-        // } else if (st2.equals("")) {
-        // return st1;
-        // }
 
-        return minimalSt("", st1, 0, st2, 0);
+        return minimalSt("", st1, 0, st2, 0, 0);
     }
 
-    public static String minimalSt(String result, String st1, int index1, String st2, int index2) {
+    public static String minimalSt(String result, String st1, int index1, String st2, int index2, int count) {
+        System.out.println(count);
+        count++;
+
         if (includes(result, st1) && includes(result, st2)) {
             return result;
         }
@@ -123,11 +121,11 @@ public class Ex13 {
         String m1 = "", m2 = "";
 
         if (index1 < st1.length()) {
-            m1 = minimalSt(result + st1.charAt(index1), st1, index1 + 1, st2, index2);
+            m1 = minimalSt(result + st1.charAt(index1), st1, index1 + 1, st2, index2, count);
         }
 
         if (index2 < st2.length()) {
-            m2 = minimalSt(result + st2.charAt(index2), st1, index1, st2, index2 + 1);
+            m2 = minimalSt(result + st2.charAt(index2), st1, index1, st2, index2 + 1, count);
         }
 
         if (m1.equals("") && m2.equals("")) {
@@ -139,6 +137,7 @@ public class Ex13 {
         }
 
         return !m1.equals("") ? m1 : m2;
+
     }
 
     private static boolean includes(String string, String subStr) {
@@ -168,8 +167,14 @@ public class Ex13 {
         int[] arr2 = { 12, 13, 18, 30, 45 };
         // System.out.println(includes("Ariel", "Ari") ? "included" : "non-included");
 
-        System.out.println(minimalSt("AGGTAB", "GXTXAYB"));
+        // System.out.println(minimalSt("AGGTAB", "GXTXAYB"));
+        // System.out.println(minimalSt("AB", "BC"));
 
-        // System.out.println(includes("GXTXAYB", "B"));
+        // System.out.println(includes("ABBC", "AB"));
+        // System.out.println(includes("ABBC", "BC"));
+
+        // System.out.println(build("", "XYZDA"));
+
     }
+
 }

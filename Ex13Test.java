@@ -32,6 +32,6 @@ public class Ex13Test {
         String st1 = "AGGTAB";
         String st2 = "GXTXAYB";
         assertEquals(Ex13.minimalSt(st1, st2), "AGXGTXAYB");
-        assertEquals(Ex13.minimalSt(st1, st2), "AGGXTXAYB");
+        // assertEquals(Ex13.minimalSt(st1, st2), "AGGXTXAYB");
     }
 }
