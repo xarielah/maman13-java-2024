@@ -289,7 +289,7 @@ public class Ex13 {
         int biggerHorizontal = Math.max(left, right);
         int biggerVertical = Math.max(top, bottom);
 
-        // Return bigger value + 1 step to include the first step.
+        // Return 1 step + the biggest value out of the four.
         return 1 + Math.max(biggerHorizontal, biggerVertical);
     }
 
